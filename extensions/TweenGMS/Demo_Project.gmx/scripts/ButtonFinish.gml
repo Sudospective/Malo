@@ -1,0 +1,1 @@
+allowTouch = true;
