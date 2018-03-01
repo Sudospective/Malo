@@ -7,7 +7,7 @@ switch (menu2_pos)
 {
     case 0:
     {
-        if (instance_exists(obj_volume) and (not TweenExists(vol_anim_in) or not TweenIsActive(vol_anim_in)))
+        if (instance_exists(obj_volume) and (not TweenExists(vol_anim_out) or not TweenExists(vol_anim_in)))
         {
             audio_play_sound(snd_menu_forward,0,false);
             
@@ -21,7 +21,7 @@ switch (menu2_pos)
             vol_anim_out = TweenFire(obj_volume,y__,EaseInExpo,0,true,0.0,0.5,y + 12,y + 240);
             TweenFire(obj_volume,timer__,EaseLinear,0,true,0.0,1.0,0,1);
         }
-        if (!instance_exists(obj_volume) and (not TweenExists(vol_anim_out) or not TweenIsActive(vol_anim_out)))
+        if (!instance_exists(obj_volume) and (not TweenExists(vol_anim_in) or not TweenExists(vol_anim_out)))
         {
             audio_play_sound(snd_menu_forward,0,false);
             instance_create(x + 160,y + 12,obj_volume);
@@ -35,9 +35,12 @@ switch (menu2_pos)
         if (instance_exists(obj_screen) and (not TweenExists(scr_anim_in) or not TweenIsActive(scr_anim_in)))
         {
             audio_play_sound(snd_menu_forward,0,false);
-            
+            /*
             if (global.isfull == 0) window_set_fullscreen(false);
             if (global.isfull == 1) window_set_fullscreen(true);
+            */
+            //[SUDDEN REALIZATION THAT BINARY IS BOOLEAN]
+            window_set_fullscreen(global.isfull);
             
             ini_open("data.ini");
                 ini_write_real("prefs","window_mode",global.isfull);

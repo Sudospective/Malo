@@ -53,8 +53,17 @@ timer = 0;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>full_right = keyboard_check_pressed(vk_right) or gamepad_button_check_pressed(0,gp_padr);
-full_left = -(keyboard_check_pressed(vk_left) or gamepad_button_check_pressed(0,gp_padl));
+            <string>full_right = (
+    keyboard_check_pressed(vk_right) or
+    gamepad_button_check_pressed(0,gp_padr) or
+    gamepad_button_check_pressed(4,gp_padr)
+    );
+    
+full_left = -(
+    keyboard_check_pressed(vk_left) or
+    gamepad_button_check_pressed(0,gp_padl) or
+    gamepad_button_check_pressed(4,gp_padl)
+    );
 
 set_full = full_right + full_left;
 global.isfull = global.isfull + set_full;
@@ -101,7 +110,7 @@ if (timer == 1) instance_destroy();
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>draw_set_font(font0);
+            <string>draw_set_font(fnt_title);
 draw_set_color(c_white);
 draw_set_halign(fa_center);
 draw_set_valign(fa_middle);

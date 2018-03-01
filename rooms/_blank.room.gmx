@@ -3,16 +3,39 @@
   <caption></caption>
   <width>320</width>
   <height>180</height>
-  <vsnap>1</vsnap>
-  <hsnap>1</hsnap>
+  <vsnap>8</vsnap>
+  <hsnap>8</hsnap>
   <isometric>0</isometric>
   <speed>60</speed>
   <persistent>0</persistent>
-  <colour>0</colour>
+  <colour>16777215</colour>
   <showcolour>-1</showcolour>
-  <code>display_set_gui_size(320,180);
+  <code>test_txt[0] = "This is a demonstration to test the MaloLib Suite GameMaker extension.";
+test_txt[1] = "This will test the various scripts of the MaloLib Suite.";
+test_txt[2] = "[Note: if you do not have the TweenGMS extension, this test will fail with a function error.]";
+test_txt[3] = "The first test is for the MaloBox Dialog Engine.";
+test_txt[4] = "This test includes a string array with multiple substrings.";
+test_txt[5] = "It also is meant to test for word wrapping, and how effective it is in the look of wrapped text, both correctly and aesthetically.";
+test_txt[6] = "In fact, this test has been active and will be for the entirety of this demonstration.";
+test_txt[7] = "We have already tested multiple strings, now we can test the universal font color.";
+test_txt[8] = "The font color can be changed with inequality variables.";
+test_txt[9] = "This dialog's color should be red.";
+test_txt[10] = "This dialog's color should be blue.";
+test_txt[11] = "This dialog's color should be purged from existance.";
+test_txt[12] = "";
 
-global.msg = 0;</code>
+/*
+var str = "[cr]This[/cr] [cy]is[/cy] [cg]a[/cg] [cb]color[/cb] [cp]test[/cp]";
+
+test_txt[0] = "Testing color coded output...";
+test_txt[1] = str;
+test_txt[2] = "Test complete. Please troubleshoot or configure engine as necessary."
+
+global.msg = 0;
+*/
+MaloBox(test_txt,fnt_dialog,"NA",c_black,0.5,view_xview,view_yview + 140,view_wview,view_hview,fa_left,fa_top,c_purple,0.5);
+
+//test_txt = "This is a [cr]test[/cr] for [cg]emphasis[/cg] of different [cp]color[/cp].";</code>
   <enableViews>0</enableViews>
   <clearViewBackground>-1</clearViewBackground>
   <clearDisplayBuffer>-1</clearDisplayBuffer>
@@ -53,7 +76,7 @@ global.msg = 0;</code>
     <view visible="0" objName="&lt;undefined&gt;" xview="0" yview="0" wview="1024" hview="768" xport="0" yport="0" wport="1024" hport="768" hborder="32" vborder="32" hspeed="-1" vspeed="-1"/>
   </views>
   <instances>
-    <instance objName="obj_catnap" x="160" y="90" name="inst_B357A7DF" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_txtcont" x="296" y="160" name="inst_E4D51605" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
   </instances>
   <tiles/>
   <PhysicsWorld>0</PhysicsWorld>

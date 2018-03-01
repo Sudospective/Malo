@@ -25,7 +25,9 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>var xTo,yTo;
+            <string>///Smart Camera
+
+var xTo,yTo;
 
 xTo = player.x + (player.prev_move * 40);
 yTo = player.y;

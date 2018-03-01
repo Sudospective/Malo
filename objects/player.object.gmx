@@ -25,14 +25,7 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///Initialize Variables
-
-if (!audio_is_playing(mus_game1) and room = room1)
-{
-    audio_stop_all();
-    global.mus = audio_play_sound(mus_game1,1,true);
-    audio_sound_gain(global.mus,1,0);
-}
+            <string>///Initial Variables
 
 grav = 0.2;
 
@@ -47,6 +40,7 @@ jumplimit = 2;
 move_was_right = true;
 move_was_left = false;
 prev_move = 1;
+has_jumped = false;
 </string>
           </argument>
         </arguments>
@@ -69,30 +63,80 @@ prev_move = 1;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>//Get Player Input
+            <string>///Player Movement
+
+//Get Player Input
 
 if (os_browser == browser_not_a_browser)
 {
-    move_right = keyboard_check(vk_right) or gamepad_button_check(0,gp_padr);
-    move_left = -(keyboard_check(vk_left) or gamepad_button_check(0,gp_padl));
-    move_tap_jump = keyboard_check_pressed(vk_up) or gamepad_button_check_pressed(0,gp_face1);
-    move_hold_jump = keyboard_check(vk_up) or gamepad_button_check(0,gp_face1);
-    button_pause = keyboard_check(vk_escape) or gamepad_button_check(0,gp_start);
+    move_right[0] = keyboard_check(vk_right);
+    move_right[1] = (
+        gamepad_button_check(0,gp_padr) or
+        gamepad_button_check(4,gp_padr)
+        );
+    move_left[0] = -(keyboard_check(vk_left)); 
+    move_left[1] = -(
+        gamepad_button_check(0,gp_padl)
+        or gamepad_button_check(4,gp_padl)
+        );
+    move_tap_jump[0] = keyboard_check_pressed(vk_up); 
+    move_tap_jump[1] = (
+        gamepad_button_check_pressed(0,gp_face1) or 
+        gamepad_button_check_pressed(4,gp_face1)
+        );
+    move_hold_jump[0] = keyboard_check(vk_up); 
+    move_hold_jump[1] = (
+        gamepad_button_check(0,gp_face1) or 
+        gamepad_button_check(4,gp_face1)
+        );
+    button_pause[0] = keyboard_check(vk_escape);
+    button_pause[1] = (
+        gamepad_button_check(0,gp_start) or
+        gamepad_button_check(4,gp_start)
+        );
 }
 else
 {
-    move_right = keyboard_check(vk_right) or gamepad_button_check(0,gp_padr);
-    move_left = keyboard_check(vk_left) or gamepad_button_check(0,gp_padl);
-    move_tap_jump = keyboard_check_pressed(vk_up) or gamepad_button_check_pressed(0,gp_face1);
-    move_hold_jump = keyboard_check(vk_up) or gamepad_button_check(0,gp_face1);
-    button_pause = keyboard_check(vk_escape) or gamepad_button_check(0,gp_start);
+    move_right[0] = keyboard_check(vk_right);
+    move_right[1] = (
+        gamepad_button_check(0,gp_padr) or
+        gamepad_button_check(4,gp_padr)
+        );
+    move_left[0] = keyboard_check(vk_left); 
+    move_left[1] = (
+        gamepad_button_check(0,gp_padl)
+        or gamepad_button_check(4,gp_padl)
+        );
+    move_tap_jump[0] = keyboard_check_pressed(vk_up); 
+    move_tap_jump[1] = (
+        gamepad_button_check_pressed(0,gp_face1) or 
+        gamepad_button_check_pressed(4,gp_face1)
+        );
+    move_hold_jump[0] = keyboard_check(vk_up); 
+    move_hold_jump[1] = (
+        gamepad_button_check(0,gp_face1) or 
+        gamepad_button_check(4,gp_face1)
+        );
+    button_pause[0] = keyboard_check(vk_escape);
+    button_pause[1] = (
+        gamepad_button_check(0,gp_start) or
+        gamepad_button_check(4,gp_start)
+        );
 }
 
 
 //React to Inputs
 
-if (os_browser == browser_not_a_browser) move = move_left + move_right;
-else move = (move_left * (0 - 1)) +  move_right;
+if (os_browser == browser_not_a_browser)
+{
+    if global.using_gamepad then move = move_left[1] + move_right[1];
+    else move = move_left[0] + move_right[0];
+}
+else
+{
+    if global.using_gamepad then move = (move_left[1] * (0 - 1)) +  move_right[1];
+    else move = (move_left[0] * (0 - 1)) +  move_right[0];
+}
 
 hsp = move * movespeed;
 
@@ -104,19 +148,41 @@ if (vsp &lt; 6)
 if (place_meeting(x,y+1,bound))
 {
     jumpcount = 0;
+    has_jumped = false;
 }
-if (move_tap_jump) &amp;&amp; (jumpcount &lt; jumplimit)
+if (global.using_gamepad)
 {
-    jumpcount += 1;
-    vsp = -jumpspeed;
+    if (move_tap_jump[1]) &amp;&amp; (jumpcount &lt; jumplimit)
+    {
+        jumpcount += 1;
+        vsp = -jumpspeed;
+        has_jumped = true;
+    }
+    if (has_jumped == false &amp;&amp; (jumpcount &lt; jumplimit))
+    {
+        jumpcount += 1;
+        has_jumped = true;
+    }
+    if (vsp &lt; 0) &amp;&amp; (!move_hold_jump[1])
+    {
+        vsp = max(vsp,-jumpspeed/4);
+    }
+    if (button_pause[0]) game_end();
 }
-
-if (vsp &lt; 0) &amp;&amp; (!move_hold_jump)
+else 
 {
-    vsp = max(vsp,-jumpspeed/4);
+    if (move_tap_jump[0]) &amp;&amp; (jumpcount &lt; jumplimit)
+    {
+        jumpcount += 1;
+        vsp = -jumpspeed;
+        has_jumped = true;
+    }
+    if (vsp &lt; 0) &amp;&amp; (!move_hold_jump[0])
+    {
+        vsp = max(vsp,-jumpspeed/4);
+    }
+    if (button_pause[1]) game_end();
 }
-
-if (button_pause) game_end();
 
 
 //Collision
@@ -166,26 +232,26 @@ if (move != 0)
 
 if (place_meeting(x,y+1,bound))
 {
-    if (move_was_right)
+    if (move_was_right and sprite_index != playerRunRight)
     {
-        if (sprite_index != playerRunRight) image_index = 0;
+        image_index = 0;
         sprite_index = playerRunRight;
     }
-    if (move_was_left)
+    if (move_was_left and sprite_index != playerRunLeft)
     {
-        if (sprite_index != playerRunLeft) image_index = 0;
+        image_index = 0;
         sprite_index = playerRunLeft;
     }
     if (move == 0)
     {
-        if (move_was_right)
+        if (move_was_right and sprite_index != playerStandRight)
         {
-            if (sprite_index != playerStandRight) image_index = 0;
+            image_index = 0;
             sprite_index = playerStandRight;
         }
-        if (move_was_left)
+        if (move_was_left and sprite_index != playerStandLeft)
         {
-            if (sprite_index != playerStandLeft) image_index = 0;
+            image_index = 0;
             sprite_index = playerStandLeft;
         }
     }

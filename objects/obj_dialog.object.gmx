@@ -25,7 +25,9 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>txt_alpha = 0;
+            <string>///MaloBox v0.1
+
+txt_alpha = 0;
 txt_print = "";
 txt_step = 0;
 txt_timer = 0;
@@ -55,43 +57,128 @@ depth = depth - instance_number(obj_dialog);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///Letters and messages
+            <string>///Letters and Messages
 
-txt_advance = keyboard_check_pressed(vk_enter) or gamepad_button_check_pressed(0,gp_face3);
+txt_advance[0] = keyboard_check_pressed(vk_enter);
+txt_advance[1] = (
+    gamepad_button_check_pressed(0,gp_face3) or
+    gamepad_button_check_pressed(4,gp_face1) or
+    gamepad_button_check_pressed(4,gp_face2) or
+    gamepad_button_check_pressed(5,gp_face1) or
+    gamepad_button_check_pressed(5,gp_face2) or
+    gamepad_button_check_pressed(6,gp_face1) or
+    gamepad_button_check_pressed(6,gp_face2) or
+    gamepad_button_check_pressed(7,gp_face1) or
+    gamepad_button_check_pressed(7,gp_face2) or
+    gamepad_button_check_pressed(8,gp_face1) or
+    gamepad_button_check_pressed(8,gp_face2) or
+    gamepad_button_check_pressed(9,gp_face1) or
+    gamepad_button_check_pressed(9,gp_face2) or
+    gamepad_button_check_pressed(10,gp_face1) or
+    gamepad_button_check_pressed(10,gp_face2) or
+    gamepad_button_check_pressed(11,gp_face1) or
+    gamepad_button_check_pressed(11,gp_face2)
+    );
 
 if (txt_step &lt; txt_string_length)
 {
-    if (is_array(global.txt_dialog)) instance_deactivate_object(obj_txtcont);
-    txt_step += txt_speed;
-    txt_print = string_copy(txt_string,0,txt_step);
-    txt_timer += txt_speed;
-    if (txt_timer == 2)
+    /*
+    if (txt_step = emph_start[i])
     {
-        audio_play_sound(snd_dialog,0,false);
-        txt_timer = 0;
+        txt_color = emph_color[i];
+        if (txt_step = emph_end[i]) txt_color = def_color;
     }
-}
+    else
+    {
+    */
+        if (is_array(txt_string)) instance_deactivate_object(obj_txtcont);
+        txt_step += txt_speed;
+        txt_print = string_copy(cur_string,0,txt_step);
+        txt_timer += txt_speed;
+        if (txt_timer == 2)
+        {
+            audio_play_sound(snd_dialog,0,false);
+            txt_timer = 0;
+        }
+    }
+//}
 
 if (txt_step == txt_string_length)
 {
-    if (is_array(global.txt_dialog))
+    if (is_array(txt_string))
     {
         instance_activate_object(obj_txtcont);
-        if (txt_advance and global.msg != array_length_1d(global.txt_dialog) - 1)
+        if (global.using_gamepad)
         {
-            global.msg ++;
-            txt_step = 0;
-            txt_string = global.txt_dialog[global.msg];
-            txt_string_length = string_length(txt_string);
-            txt_font_size = font_get_size(txt_font);
-            
-            draw_set_font(txt_font);
-            
-            txt_string_width = string_width_ext(txt_string,txt_font_size + (txt_font_size/2),txt_width - txt_padding * 2);
-            txt_string_height = string_height_ext(txt_string,txt_font_size + (txt_font_size/2),txt_width - txt_padding * 2);
-            
-            txt_box_w = txt_string_width + (txt_padding * 2);
-            txt_box_h = txt_string_height + (txt_padding * 2);
+            if (txt_advance[1] and global.msg != array_length_1d(txt_string) - 1)
+            {
+                global.msg += 1;
+                /*
+                cur_string = txt_string[global.msg];
+                txt_step = 0;
+                
+                txt_string_length = string_length(cur_string);
+                txt_font_size = font_get_size(txt_font);
+                
+                draw_set_font(txt_font);
+                */
+                //txt_string_width = string_width_ext(cur_string,txt_font_size + (txt_font_size/2),txt_width - box_padding - txt_padding);
+                //txt_string_height = string_height_ext(cur_string,txt_font_size + (txt_font_size/2),txt_height - box_padding - txt_padding);
+                
+                //txt_box_w = txt_width + txt_padding;
+                //txt_box_h = txt_height + txt_padding;
+                MaloBox(
+                    txt_string,
+                    txt_font,
+                    txt_font_size,
+                    txt_color,
+                    txt_speed,
+                    txt_x,
+                    txt_y,
+                    txt_width,
+                    txt_height,
+                    txt_halign,
+                    txt_valign,
+                    box_color,
+                    box_alpha
+                );
+                instance_destroy(id);
+                
+            }
+        }
+        else
+        {
+            if (txt_advance[0] and global.msg != array_length_1d(txt_string) - 1)
+            {
+                global.msg += 1;
+                /*
+                txt_step = 0;
+                cur_string = txt_string[global.msg];
+                */
+                
+                //txt_string_width = string_width_ext(cur_string,txt_font_size + (txt_font_size/2),txt_width - box_padding - txt_padding);
+                //txt_string_height = string_height_ext(cur_string,txt_font_size + (txt_font_size/2),txt_height - box_padding - txt_padding);
+                
+                //txt_box_w = txt_string_width + txt_padding;
+                //txt_box_h = txt_string_height + txt_padding;
+                
+                MaloBox(
+                    txt_string,
+                    txt_font,
+                    txt_font_size,
+                    txt_color,
+                    txt_speed,
+                    txt_x,
+                    txt_y,
+                    txt_width,
+                    txt_height,
+                    txt_halign,
+                    txt_valign,
+                    box_color,
+                    box_alpha
+                );
+                instance_destroy(id);
+            }
         }
     }
     else
@@ -123,34 +210,104 @@ if (txt_step == txt_string_length)
             <kind>1</kind>
             <string>///Render Text
 
+//Set GUI size
+display_set_gui_size(320,180);
+
+//If...timer isn't set to one? I'm sure I have a reason for that...
+//Regardless, do the following:
 if (timer != 1)
 {
+
+    //Set the alpha in a way that we can print one letter at a time.
     draw_set_alpha(txt_alpha);
     txt_alpha = 1;
     
-    display_set_gui_size(320,180);
-    
     draw_set_font(txt_font);
     
-    if (box == true)
-    {
-        draw_set_color(c_black);
-        draw_rectangle(x + box_padding,y + box_padding,view_wview - box_padding,view_hview - box_padding,0);
-    }
+    //Draw the textbox. Hardcoded because I really like the position
+    //I set it at. I'll leave the code where it adjusts with the box
+    //size commented if you'd like that.
+    draw_set_color(box_color);
+    draw_set_alpha(box_alpha);
+    box_draw = draw_rectangle(
+        x + box_padding,
+        y + box_padding,
+        txt_width - box_padding,
+        txt_height - box_padding,
+        0
+    );
+    //box_draw = draw_rectangle(x + box_padding,y + box_padding,view_wview - box_padding,view_hview - box_padding,0);
     
-    draw_set_color(txt_color);
     draw_set_halign(txt_halign);
     draw_set_valign(txt_valign);
     
-    draw_text_ext
-    (
+    //If we have scriptmarks in our string, switch between printing
+    //colors for the text until we run out of scriptmarks, then finish the string.
+    /*
+    if (is_emph)
+    {
+        var i = 0, cur_cat = "";
+        repeat(emph_count + 1)
+        {
+            draw_set_color(txt_color);
+            draw_text_ext(
+                (x + box_padding + txt_padding) + string_length(cur_cat),
+                (y + box_padding + txt_padding),
+                emph_start[i],
+                txt_font_size,
+                (txt_width - (box_padding*2) - (txt_padding*2))
+            );
+            cur_cat = string_copy(cur_string,0,emph_start[i]);
+            
+            draw_set_color(emph_color[i]);
+            draw_text_ext(
+                (x + box_padding + txt_padding) + string_length(cur_cat),
+                (y + box_padding + txt_padding),
+                emph[i],
+                txt_font_size,
+                (txt_width - (box_padding*2) - (txt_padding*2))
+            );
+            cur_cat = string_copy(cur_string,0,emph[i]);
+            
+            i ++;
+            if (i = emph_count)
+            {
+                draw_set_color(txt_color);
+                draw_text_ext(
+                    (x + box_padding + txt_padding) + string_length(cur_cat),
+                    (y + box_padding + txt_padding),
+                    string_copy(cur_string,cur_cat,string_length(cur_string)),
+                    txt_font_size,
+                    (txt_width - (box_padding*2) - (txt_padding+2))
+                );
+            }
+        }
+    }
+    else
+    {
+        draw_set_color(txt_color);
+        draw_text_ext(
+            x + box_padding + txt_padding,
+            y + box_padding + txt_padding,
+            txt_print,
+            txt_font_size + (txt_font_size/2),
+            txt_width - (box_padding*2) - (txt_padding*2)
+        );
+    }
+    */
+    
+    draw_set_color(txt_color);
+    draw_set_alpha(txt_alpha);
+    draw_text_ext(
         x + box_padding + txt_padding,
         y + box_padding + txt_padding,
         txt_print,
         txt_font_size + (txt_font_size/2),
-        txt_width
+        txt_width - (box_padding*2) - (txt_padding*2)
     );
+    draw_set_alpha(1);
 }
+
 </string>
           </argument>
         </arguments>

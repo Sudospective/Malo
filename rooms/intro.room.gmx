@@ -10,16 +10,20 @@
   <persistent>0</persistent>
   <colour>16777215</colour>
   <showcolour>-1</showcolour>
-  <code>global.txt_dialog[0] = "Once upon a time...";
-global.txt_dialog[1] = "...there was a robot named Malo.";
-global.txt_dialog[2] = "Malo understood only one emotion: love.";
-global.txt_dialog[3] = "But because he didn't understand happiness, sorrow, or any other#emotion that went with love, it was a basic understanding.";
-global.txt_dialog[4] = "With only his basic understanding, there seemed no way for him#to express this emotion, for he was alone in this world.";
-global.txt_dialog[5] = 'However, Malo found that he expressed his "love" for the world#around him, that was made just for him.';
-global.txt_dialog[6] = "This is the story of Malo's expression of love.";
-global.txt_dialog[7] = "";
+  <code>draw_texture_flush();
 
-scr_dialog(global.txt_dialog[global.msg],fnt_dialog,c_black,0.5,view_xview,view_hview - 40,fa_left,fa_top,false);</code>
+rm_dialog[0] = "Once upon a time...";
+rm_dialog[1] = "...there was a robot named Malo.";
+rm_dialog[2] = "Malo understood only one emotion: love.";
+rm_dialog[3] = "But because he didn't understand happiness, sorrow, or any other#emotion that went with love, it was a basic understanding.";
+rm_dialog[4] = "With only his basic understanding, there seemed no way for him#to express this emotion, for he was alone in this world.";
+rm_dialog[5] = 'However, Malo found that he expressed his "love" for the world#around him, that was made just for him.';
+rm_dialog[6] = "This is the story of Malo's expression of love.";
+rm_dialog[7] = "";
+
+global.msg = 0;
+
+MaloBox(rm_dialog,fnt_dialog,"NA",c_black,0.5,view_xview,view_hview - 40,view_wview,view_hview,fa_left,fa_top,false,0);</code>
   <enableViews>-1</enableViews>
   <clearViewBackground>-1</clearViewBackground>
   <clearDisplayBuffer>-1</clearDisplayBuffer>

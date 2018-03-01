@@ -25,7 +25,9 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (instance_exists(selector1))
+            <string>///Initial Items
+
+if (instance_exists(selector1))
 {
     TweenFire(id,view_xview__,EaseOutExpo,0,true,0.0,1.0,0,320);
 }
@@ -59,44 +61,47 @@ timer = 0;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (view_xview = 320)
-{
-    menu2_up = keyboard_check_pressed(vk_up) or gamepad_button_check_pressed(0,gp_padu);
-    menu2_down = keyboard_check_pressed(vk_down) or gamepad_button_check_pressed(0,gp_padd);
-    menu2_select = keyboard_check_pressed(vk_enter) or gamepad_button_check_pressed(0,gp_face1);
-    
-    var move = 0;
-    move -= max(menu2_up,0);
-    move += max(menu2_down,0);
-    
-    if (move != 0)
+            <string>///Entry Check
+
+if (!instance_exists(selector1))
+    if (view_xview != 0)
     {
-        if (!instance_exists(obj_volume) and !instance_exists(obj_screen))
+        menu2_up = keyboard_check_pressed(vk_up) or gamepad_button_check_pressed(0,gp_padu);
+        menu2_down = keyboard_check_pressed(vk_down) or gamepad_button_check_pressed(0,gp_padd);
+        menu2_select = keyboard_check_pressed(vk_enter) or gamepad_button_check_pressed(0,gp_face1);
+        
+        var move = 0;
+        move -= max(menu2_up,0);
+        move += max(menu2_down,0);
+        
+        if (move != 0)
         {
-            
-            menu2_pos += move;
-            if (menu2_pos &lt; 0)
+            if (!instance_exists(obj_volume) and !instance_exists(obj_screen))
             {
-                audio_play_sound(snd_menu_deny,0,false);
-                menu2_pos = 0;
+                
+                menu2_pos += move;
+                if (menu2_pos &lt; 0)
+                {
+                    audio_play_sound(snd_menu_deny,0,false);
+                    menu2_pos = 0;
+                }
+                else if (menu2_pos &gt; array_length_1d(menuopt2) - 1)
+                {
+                    audio_play_sound(snd_menu_deny,0,false);
+                    menu2_pos = array_length_1d(menuopt2) - 1;
+                }
+                else audio_play_sound(snd_menu_move,0,false);
             }
-            else if (menu2_pos &gt; array_length_1d(menuopt2) - 1)
-            {
-                audio_play_sound(snd_menu_deny,0,false);
-                menu2_pos = array_length_1d(menuopt2) - 1;
-            }
-            else audio_play_sound(snd_menu_move,0,false);
+        }
+        
+        var push;
+        push = max(menu2_select,0);
+        
+        if (push == 1)
+        {
+            scr_menu2();
         }
     }
-    
-    var push;
-    push = max(menu2_select,0);
-    
-    if (push == 1)
-    {
-        scr_menu2();
-    }
-}
 
 if (instance_exists(selector1))
 {
@@ -126,9 +131,16 @@ if (instance_exists(selector1))
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///On Select
+            <string>///On Select (Failed)
 
-/*if (push == 1)
+/*
+This doesn't work. I hoped it would so I wouldn't have to use an external script,
+but unfortunately it just completely blows off this code. Switches don't seem to work,
+but I will try with if-then if needed (which, honestly, the external script is fine).
+*/
+
+/*
+if (push == 1)
 {
     switch (menu2_pos)
     {
@@ -152,7 +164,8 @@ if (instance_exists(selector1))
         }
     }
     if (menu2_pos == array_length_1d(menuopt2) - 1) menu2_pos = 0;
-}*/
+}
+*/
 </string>
           </argument>
         </arguments>
@@ -175,9 +188,11 @@ if (instance_exists(selector1))
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>draw_set_halign(fa_center);
+            <string>///Draw Items
+
+draw_set_halign(fa_center);
 draw_set_valign(fa_bottom);
-draw_set_font(font0);
+draw_set_font(fnt_title);
 draw_set_color(c_white);
 
 draw_text(480,y - 40,string("Options"));
@@ -188,7 +203,7 @@ for (m = 0; m &lt; array_length_1d(menuopt2); m += 1)
     draw_text(480,(y + (m * space2)) + 20,string(menuopt2[m]));
 }
 
-draw_sprite(sprite_index,0,x + 30,(y + (menu2_pos - 1) * space2) + 20);
+draw_sprite(sprite_index,0,x + 16,(y + (menu2_pos - 1) * space2) + 20);
 </string>
           </argument>
         </arguments>

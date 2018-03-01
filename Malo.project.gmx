@@ -105,14 +105,13 @@
     <sprite>sprites\spr_enter</sprite>
     <sprite>sprites\screen_arrows</sprite>
     <sprite>sprites\catnap</sprite>
+    <sprite>sprites\spr_bbutton</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
   <scripts name="scripts">
     <script>scripts\scr_menu1.gml</script>
     <script>scripts\scr_menu2.gml</script>
-    <script>scripts\scr_dialog.gml</script>
-    <script>scripts\scr_fade.gml</script>
     <scripts name="TweenGMS">
       <scripts name="Core">
         <script>scripts\Ease.gml</script>
@@ -157,16 +156,25 @@
         <script>scripts\TGMS_TweenSystem.gml</script>
       </scripts>
     </scripts>
+    <scripts name="MaloLib Suite">
+      <script>scripts\MaloBox.gml</script>
+      <script>scripts\MaloFade.gml</script>
+    </scripts>
   </scripts>
   <fonts name="fonts">
-    <font>fonts\font0</font>
+    <font>fonts\fnt_title</font>
     <font>fonts\fnt_dialog</font>
   </fonts>
   <objects name="objects">
-    <object>objects\player</object>
+    <object>objects\obj_catnap</object>
+    <object>objects\obj_txtcont</object>
+    <object>objects\obj_maloHeart</object>
     <object>objects\bound</object>
+    <object>objects\player</object>
     <object>objects\selector1</object>
     <object>objects\selector2</object>
+    <object>objects\obj_volume</object>
+    <object>objects\obj_screen</object>
     <objects name="TweenGMS">
       <object>objects\obj_SharedTweener</object>
     </objects>
@@ -174,18 +182,16 @@
       <object>objects\obj_dialog</object>
       <object>objects\obj_camera</object>
       <object>objects\obj_fade</object>
+      <object>objects\obj_gpdebug</object>
     </objects>
-    <object>objects\obj_volume</object>
-    <object>objects\obj_maloHeart</object>
-    <object>objects\obj_txtcont</object>
-    <object>objects\obj_screen</object>
-    <object>objects\obj_catnap</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\splash</room>
     <room>rooms\menu</room>
     <room>rooms\intro</room>
-    <room>rooms\room1</room>
+    <room>rooms\debug</room>
+    <room>rooms\_blank</room>
+    <room>rooms\gpdebug</room>
   </rooms>
   <help>
     <rtf>help.rtf</rtf>

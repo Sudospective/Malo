@@ -25,7 +25,9 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>image_index = 0;
+            <string>///Initial Variables
+
+image_index = 0;
 image_alpha = 0;
 
 timer = 0;
@@ -68,10 +70,10 @@ if (global.msg &gt;= 2)
     
 if (global.msg &gt;= 7)
 {
-    scr_fade(c_black,0.5);
+    MaloFade(c_black,0.5);
     audio_sound_gain(global.mus,0,500);
     timer += 1;
-    if (timer == 180) room_goto(room1);
+    if (timer == 60) room_goto(room1);
 }
 </string>
           </argument>

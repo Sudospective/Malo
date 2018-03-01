@@ -3,7 +3,7 @@
   <spriteName>spr_xbutton</spriteName>
   <solid>0</solid>
   <visible>-1</visible>
-  <depth>0</depth>
+  <depth>1</depth>
   <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
@@ -49,6 +49,7 @@
           <argument>
             <kind>1</kind>
             <string>if (gamepad_is_connected(0)) sprite_index = spr_xbutton;
+else if (gamepad_is_connected(4)) sprite_index = spr_bbutton;
 else sprite_index = spr_enter;
 </string>
           </argument>

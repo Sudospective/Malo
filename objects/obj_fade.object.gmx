@@ -25,7 +25,9 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>fade_start = 0;
+            <string>///Object Fader
+
+fade_start = 0;
 </string>
           </argument>
         </arguments>

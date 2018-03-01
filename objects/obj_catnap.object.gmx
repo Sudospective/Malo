@@ -28,6 +28,12 @@
             <string>image_alpha = 1;
 timer = 0;
 
+gamepad_get_device_count();
+global.using_gamepad = (
+    gamepad_is_connected(0) or
+    gamepad_is_connected(4)
+    );
+
 ini_open("data.ini");
     global.volume = ini_read_real("prefs","audio",1);
     global.isfull = ini_read_real("prefs","window_mode",0);
@@ -70,9 +76,11 @@ if (timer &gt;= 1)
     image_alpha = 1;
 }
 
-if (timer &gt;= 2) scr_fade(c_black,1);
+if (timer &gt;= 2) MaloFade(c_black,1);
 
-if (timer = 3) room_goto(menu);
+if (timer = 3) 
+    room_goto(menu);
+    //room_goto(_blank);
 </string>
           </argument>
         </arguments>
